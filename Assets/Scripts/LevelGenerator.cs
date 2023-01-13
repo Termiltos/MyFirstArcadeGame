@@ -30,13 +30,16 @@ public class LevelGenerator : MonoBehaviour
     private float MaxSpawnRadius;
     private GameObject ennemiesContainer;
     private bool isDeath;
+    private bool isGameOver;
     private float timerOfDeath;
     private PlayerControls playerControls;
     private float timerFrequancy;
     private float initialEnnemyFrequency;
+    private GameObject gameOverObject;
 
     void Awake()
     {
+        gameOverObject = GameObject.Find("GameOver");
         initialEnnemyFrequency = ennemyFrequency;
         timerOfDeath = 0f;
         scoreNumber = 0f;
@@ -52,6 +55,7 @@ public class LevelGenerator : MonoBehaviour
 
     void Start()
     {
+        gameOverObject.SetActive(false);
         bulletHell = Instantiate<GameObject>(pileOfBullet);
         ennemiesContainer = Instantiate<GameObject>(pileOfEnnemies);
     }
@@ -79,6 +83,10 @@ public class LevelGenerator : MonoBehaviour
                 timerOfDeath = 0f;
                 timerFrequancy = 0f;
             }
+        }
+        else if(nbOfLifes == 0 && !gameOverObject.activeSelf)
+        {
+            gameOverObject.SetActive(true);
         }
 
         ClearDeadPrefabs();
